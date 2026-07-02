@@ -1,0 +1,5 @@
+{"hostname": "prod-web-01", "environment": "production", "cpu": 4, "ram": 16}
+{"hostname": "stage-app-01", "environment": "staging", "cpu": 2}
+{"hostname": "dev-db-01", "environment": "development", "cpu": 1, "ram": 4}
+{"hostname": "prod-mon-02", "environment": "production", "cpu": 8, "ram": 32
+{"hostname": "test-cache-01", "environment": "testing", "cpu": 2, "ram": 8}
