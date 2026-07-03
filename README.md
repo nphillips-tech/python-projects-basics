@@ -88,3 +88,22 @@ Total Malformed Records Skipped: 1
 The following servers are cleared for AWS migration:
 - prod-web-01 (production)
 - test-cache-01 (testing)
+
+### 7. AWS First Contact & API Authentication
+* **Script:** `aws_test_connect.py`
+* **Objective:** Establish a secure, programmatic connection from a local virtual machine to Amazon Web Services to audit cloud storage infrastructure.
+
+**Milestones Accomplished:**
+* **Identity & Access Management (IAM):** Provisioned a dedicated, non-root automation user following the principle of least privilege, restricting access solely to programmatic CLI/API interactions.
+* **Secure Environment Configuration:** Bound the local VM to AWS securely using local access keys via `aws configure` to avoid hardcoding credentials.
+* **Terminal-Driven Provisioning:** Bypassed AWS Console UI limitations by utilizing the `aws s3api` CLI to programmatically spin up a globally unique storage asset in `us-east-1`.
+* **SDK Implementation:** Developed an automated discovery script utilizing `boto3` to hit the global AWS endpoint, unpack the metadata payload, and map active S3 buckets.
+
+#### Execution Verification:
+```text
+(.venv) nick@nickubuntu:~/python-projects-basics$ python3 aws_test_connect.py
+[INFO]: Connecting to AWS API...
+
+=== Active S3 Storage Buckets Found ===
+- nick-p-validation-77129
+```
