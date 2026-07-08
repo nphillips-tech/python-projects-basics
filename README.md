@@ -107,3 +107,35 @@ The following servers are cleared for AWS migration:
 === Active S3 Storage Buckets Found ===
 - nick-p-validation-77129
 ```
+
+### 8. S3 Data Ingestion & Object Telemetry Engine
+* **Script:** `aws_s3_archiver.py`
+* **Objective:** Programmatically ship local infrastructure state logs to cloud storage and parse object registries using the AWS API.
+
+**Milestones Accomplished:**
+* **File Stream Migration:** Utilized the Boto3 `.upload_file()` abstraction layer to transfer a local system asset (`backup_log.txt`) to a remote target bucket.
+* **API Response Harvesting:** Captured the complex nested dictionary return payload from `list_objects_v2()`.
+* **Defensive Dictionary Traversing:** Implemented a structural check (`if 'Contents' in objects_payload`) to protect the looping logic from breaking if evaluated against an empty cloud bucket directory.
+* **Key Mapping:** Iterated through target objects to isolate and extract the precise metadata string identifiers (`obj['Key']`).
+
+### 9. Automated Local-to-Cloud Fleet Archiver
+* **Script:** `aws_fleet_backup.py`
+* **Objective:** Execute automated directory sweeps across local server infrastructure, construct platform-agnostic file paths, and stream sequential data assets to AWS S3.
+
+**Milestones Accomplished:**
+* **Dynamic Directory Ingestion:** Utilized Python's `os.listdir()` to dynamically inventory target directories without hardcoding explicit filename assets.
+* **Cross-Platform Path Stability:** Implemented `os.path.join()` to safely handle local directory-to-file paths, preventing path delimiter failures across differing operating system kernels.
+* **Deterministic Object Key Mapping:** Engineered dynamic string concatenation logic to append unique file identifiers to explicit cloud path prefixes (`"fleet_backups/" + filename`), avoiding key collisions and unintended object overwrites during iterative loop streams.
+
+---
+
+### 10. Decoupled Cloud Compute Provisioner
+* **Script:** `aws_ec2_provisioner.py`
+* **Objective:** Programmatically orchestrate virtual hardware allocation and virtual machine lifecycle deployment via API infrastructure blueprints.
+
+**Milestones Accomplished:**
+* **API Blueprint Modeling:** Bypassed traditional web console UI dependencies by using the Boto3 EC2 client to compile compute parameters natively in code.
+* **Hardware Sizing & Operating System Selection:** Successfully targeted specific geographic Amazon Machine Images (AMIs) for Ubuntu 24.04 LTS and provisioned burstable instance architectures (`t3.micro`).
+* **Multi-Service Security Escalation:** Successfully identified, tracked, and isolated cross-service privilege blocks (`UnauthorizedOperation`) by updating AWS IAM identity policies from storage-only scopes to full compute administrative permissions (`AmazonEC2FullAccess`).
+* **Free Tier Credit Safeguards:** Configured explicit `CreditSpecification` parameters within the launch payload to lock compute cycles into 'standard' evaluation modes, mitigating unexpected infrastructure billing.
+* **Asynchronous Payload Parsing:** Captured the complex returned launch dictionary data stream, target-filtering the array to isolate, extract, and print the live cloud `InstanceId` directly to the terminal console.
